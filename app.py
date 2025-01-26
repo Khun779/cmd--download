@@ -33,7 +33,10 @@ def download_video():
         # Commands to run as if in terminal
         commands = [
             f'cd {DOWNLOAD_FOLDER}',        # Navigate to downloads directory
-            f'yt-dlp --no-check-certificate --format best --user-agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" --referer "https://www.google.com/" {video_url}'  # Run yt-dlp command with user agent and referer
+            f'''yt-dlp --no-check-certificate --format best \
+                --user-agent 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' \
+                --referer 'https://www.google.com/' \
+                '{video_url}' '''  # Run yt-dlp command with simpler user agent
         ]
 
         # Combine commands with && to ensure they run in sequence
@@ -42,7 +45,7 @@ def download_video():
             shell_cmd = f'cmd /c "{command}"'
         else:  # Linux/Unix
             command = ' && '.join(commands)
-            shell_cmd = f'bash -c "{command}"'
+            shell_cmd = ['bash', '-c', command]  # Use list format for better escaping
 
         # Execute the commands
         print(f"Running commands:\n{command}")
