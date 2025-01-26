@@ -33,7 +33,7 @@ def download_video():
         # Commands to run as if in terminal
         commands = [
             f'cd {DOWNLOAD_FOLDER}',        # Navigate to downloads directory
-            f'yt-dlp {video_url}'          # Run yt-dlp command
+            f'yt-dlp --no-check-certificate --cookies-from-browser chrome {video_url}'          # Run yt-dlp command
         ]
 
         # Combine commands with && to ensure they run in sequence

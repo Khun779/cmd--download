@@ -6,12 +6,14 @@ services:
       sudo apt-get update
       sudo apt-get install -y ffmpeg
       pip install -r requirements.txt
-      mkdir -p downloads  # Create downloads directory during build
-    startCommand: gunicorn -w 4 -b 0.0.0.0:$PORT app:app
+      mkdir -p downloads
+    startCommand: gunicorn --timeout 120 --workers 4 -b 0.0.0.0:$PORT app:app
     autoDeploy: true
     envVars:
       - key: FLASK_ENV
         value: production
+      - key: PYTHONUNBUFFERED
+        value: "true"
     routes:
       - type: route
         name: flask-app-route
