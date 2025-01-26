@@ -36,7 +36,8 @@ def download_video():
             f'''yt-dlp --no-check-certificate --format best \
                 --user-agent 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' \
                 --referer 'https://www.google.com/' \
-                '{video_url}' '''  # Run yt-dlp command with simpler user agent
+                --verbose \
+                '{video_url}' '''  # Added --verbose for more output
         ]
 
         # Combine commands with && to ensure they run in sequence
@@ -59,16 +60,26 @@ def download_video():
             )
             
             stdout, stderr = process.communicate()
+            
+            # Print full output for debugging
+            print(f"STDOUT:\n{stdout}")
+            print(f"STDERR:\n{stderr}")
 
             if process.returncode != 0:
                 error_msg = stderr.strip() if stderr else "Unknown error occurred"
                 print(f"Download failed: {error_msg}")
                 return jsonify({"error": f"Download failed: {error_msg}"}), 500
 
-            print(f"Download successful. Output:\n{stdout}")
+            # Check if any files were actually downloaded
+            files = os.listdir(DOWNLOAD_FOLDER)
+            if not files:
+                return jsonify({"error": "No files were downloaded"}), 500
+
+            print(f"Files in download folder: {files}")
             return jsonify({
                 "message": "Video downloaded successfully", 
-                "folder": os.path.abspath(DOWNLOAD_FOLDER)
+                "folder": os.path.abspath(DOWNLOAD_FOLDER),
+                "files": files  # Add list of downloaded files to response
             }), 200
 
         except subprocess.SubprocessError as e:
