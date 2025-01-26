@@ -1,0 +1,17 @@
+# Ignore downloads folder
+downloads/
+downloads/*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment
+.env
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/ 
