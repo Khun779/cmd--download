@@ -32,11 +32,7 @@ def download_video():
         # Commands to run as if in terminal
         commands = [
             f'cd {DOWNLOAD_FOLDER}',        # Navigate to downloads directory
-            f'''yt-dlp --no-check-certificate --format best \
-                --user-agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" \
-                --referer "https://www.google.com/" \
-                --verbose \
-                "{video_url}" '''  # Added --verbose for more output
+            f'yt-dlp "{video_url}"'         # Simplified yt-dlp command
         ]
 
         # Combine commands with && to ensure they run in sequence
@@ -92,10 +88,11 @@ def download_video():
 if __name__ == "__main__":
     # Verify yt-dlp installation on startup
     try:
-        subprocess.run(['yt-dlp', '--version'], 
+        result = subprocess.run(['yt-dlp', '--version'], 
                       capture_output=True, 
                       text=True, 
                       check=True)
+        print(f"yt-dlp version: {result.stdout.strip()}")
     except Exception as e:
         print("Error: yt-dlp is not properly installed or not in PATH")
         print("Please install yt-dlp using: pip install --upgrade yt-dlp")
