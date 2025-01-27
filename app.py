@@ -34,10 +34,10 @@ def download_video():
         commands = [
             f'cd {DOWNLOAD_FOLDER}',        # Navigate to downloads directory
             f'''yt-dlp --no-check-certificate --format best \
-                --user-agent 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' \
-                --referer 'https://www.google.com/' \
+                --user-agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" \
+                --referer "https://www.google.com/" \
                 --verbose \
-                '{video_url}' '''  # Added --verbose for more output
+                "{video_url}" '''  # Added --verbose for more output
         ]
 
         # Combine commands with && to ensure they run in sequence
@@ -111,4 +111,3 @@ if __name__ == "__main__":
             print(f"Warning: Could not create downloads folder: {str(e)}")
     
     app.run(debug=True)
-
