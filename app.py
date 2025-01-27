@@ -29,6 +29,14 @@ def download_video():
         else:
             print(f"Using existing downloads folder: {DOWNLOAD_FOLDER}")
 
+        # Verify yt-dlp installation
+        try:
+            result = subprocess.run(['yt-dlp', '--version'], capture_output=True, text=True, check=True)
+            print(f"yt-dlp version: {result.stdout.strip()}")
+        except Exception as e:
+            print(f"Error: yt-dlp is not properly installed or not in PATH. Details: {str(e)}")
+            return jsonify({"error": "yt-dlp is not properly installed or not in PATH"}), 500
+
         # Commands to run as if in terminal
         commands = [
             f'cd {DOWNLOAD_FOLDER}',        # Navigate to downloads directory
