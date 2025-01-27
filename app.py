@@ -3,7 +3,6 @@ import subprocess
 from flask import Flask, request, jsonify, render_template
 
 app = Flask(__name__)
-# Use relative path for downloads folder
 DOWNLOAD_FOLDER = "downloads"
 
 @app.route("/")
